@@ -1,0 +1,45 @@
+id: mws
+display_name: MWS
+env_prefix: MWS_S3_
+uri_scheme: mws-s3
+binary: mws-s3
+default_pool: ru-central1
+path_style: true
+pools:
+  - id: ru-central1
+    endpoint: https://storage.mwsapis.ru
+    location: Россия, MWS Cloud Platform
+    multi_az: true
+    storage_classes: [STANDARD, WARM, COLD]
+storage_classes:
+  - {id: STANDARD, name_ru: Стандартный, price_rub_gb_month: 2.44, verified: false, checked_at: "2026-10-10"}
+  - {id: WARM, name_ru: Тёплый, price_rub_gb_month: 9.15, verified: false, checked_at: "2026-10-10"}
+  - {id: COLD, name_ru: Холодный, price_rub_gb_month: 1.26, verified: false, checked_at: "2026-10-10"}
+features:
+  versioning: true
+  object_lock_config: true
+  object_retention: true
+  object_tagging: true
+  bucket_tagging: true
+  lifecycle: true
+  cors: true
+  bucket_policy: true
+  conditional_writes: false
+  conditional_delete: false
+  multipart: true
+  presign: true
+  acl: false
+limits:
+  max_put_bytes: 5000000000
+  max_parts: 10000
+  rate_limits: {list_per_project: 500, options_per_project: 1500, get_per_project: 2500, head_per_project: 2500, delete_per_project: 750, delete_multiple_per_project: 50, put_per_project: 1500}
+presign_max_seconds: 604800
+verified: false
+presign_note: "MWS Cloud Platform: сервис документирует срок от 60 до 604800 секунд; используйте не меньше 60. Условные запись/удаление и ACL не подтверждены, нужна живая проверка."
+docs_urls:
+  - https://mws.ru/docs/cloud-platform/storage/general/quickstart-aws-cli.html
+  - https://mws.ru/docs/cloud-platform/storage/general/object-overview.html
+  - https://mws.ru/docs/cloud-platform/storage/general/pricing.html
+  - https://mws.ru/docs/cloud-platform/storage/general/quotas-limits.html
+  - https://mws.ru/docs/cloud-platform/storage/general/access-presigned-url.html
+  - https://mws.ru/docs/cloud-platform/storage/general/object-lock-settings.html

@@ -1,6 +1,5 @@
 /dist/
-/bin/
-*.test
-*.out
-coverage.*
-.env
+/.superpowers/
+/.conformance-data/
+/mws-s3
+/.kit/

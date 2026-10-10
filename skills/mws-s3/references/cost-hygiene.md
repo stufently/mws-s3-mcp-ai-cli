@@ -1,0 +1,3 @@
+# Объём и расходы
+
+`s3_largest_objects` и `s3_prefix_usage` дают ограниченный скан, а не биллинг. `s3_unfinished_uploads` находит multipart; abort требует согласия. Классы и verified доступны в pools. Lifecycle и выбор класса эта версия CLI не настраивает; сверь панель и официальную документацию MWS: https://mws.ru/docs/cloud-platform/storage/general/quickstart-aws-cli.html https://mws.ru/docs/cloud-platform/storage/general/object-overview.html https://mws.ru/docs/cloud-platform/storage/general/pricing.html https://mws.ru/docs/cloud-platform/storage/general/quotas-limits.html https://mws.ru/docs/cloud-platform/storage/general/access-presigned-url.html https://mws.ru/docs/cloud-platform/storage/general/object-lock-settings.html.

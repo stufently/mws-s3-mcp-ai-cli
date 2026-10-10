@@ -1,0 +1,3 @@
+# Инцидент
+
+Начни с `doctor`, конфигурации, head/list и аудита. SDK повторяет 429/503 с адаптивной задержкой. Сверь часы и ограничения провайдера: https://mws.ru/docs/cloud-platform/storage/general/quickstart-aws-cli.html https://mws.ru/docs/cloud-platform/storage/general/object-overview.html https://mws.ru/docs/cloud-platform/storage/general/pricing.html https://mws.ru/docs/cloud-platform/storage/general/quotas-limits.html https://mws.ru/docs/cloud-platform/storage/general/access-presigned-url.html https://mws.ru/docs/cloud-platform/storage/general/object-lock-settings.html. Не меняй скоуп или политику подтверждения для обхода отказа. Баланс, ключи и аккаунт проверяет владелец.

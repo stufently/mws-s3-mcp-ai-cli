@@ -1,6 +1,8 @@
 # MWS S3 MCP Server & AI CLI
 
-MWS S3 Object Storage for Claude Code, Cursor and Codex: a stdio MCP server, streaming CLI and embedded agent skill in one Go binary. Read-only MCP is the default; large backup files travel through presigned URLs, multipart or confined file tools.
+A Go MCP server, CLI and installable agent skill for MWS S3 Object Storage. Use Claude Code, Cursor and Codex to inspect objects, recover backups and work with scoped bucket prefixes. Cloud Platform, storage.mwsapis.ru; ACL is disabled. Read-only MCP access is the default. Independent permission levels control writes; destructive operations use the configured approval policy.
+
+[Русское руководство](README.md) · [Russian S3 MCP server directory](https://stufently.github.io/s3-mcp-ai-cli-kit/en/)
 
 ## Features
 
@@ -61,6 +63,18 @@ Lists return at most 1000 items plus continuation tokens; versions/multipart hav
 
 Analytics scan max_scan entries (default 10000), marking partial results and tokens. Prefix aggregates page via next_result_offset. They are not billing estimates.
 
+## Use case: HMAC access checks and short-lived archive URLs
+
+After saving the service account HMAC credentials, check access and create a short-lived URL for an existing MWS Cloud Platform archive. This example uses 60 seconds, the lower bound documented in the research:
+
+```bash
+mws-s3 auth status
+mws-s3 doctor --json
+mws-s3 presign backups/daily/archive.tar --expires 60
+```
+
+Examples assume an existing `backups` bucket and `daily/archive.tar` object; replace them with your own names. Cloud compatibility still requires [live verification](TASKS.md).
+
 ## CLI
 
 ```bash
@@ -119,6 +133,12 @@ Lifecycle, ACL, bucket tagging and retention may be cloud features, but this bin
 
 ## FAQ
 
+**Which MWS product does this MCP server target?** The profile targets **MWS Cloud Platform**, endpoint `storage.mwsapis.ru`, signing region `ru-central1`. A different product with a similar name needs its own profile.
+
+**Which credentials does MWS S3 require?** The Access key/Secret key pair of a service account HMAC key. Enter it with `mws-s3 auth set`; [MWS research](docs/research/mws-s3.md) links the official setup. Never put keys in command arguments.
+
+**Why does the short-lived MWS URL example use 60 seconds?** The research cites a documented 60–604800 second range. Use at least 60; actual behavior and maximum lifetime still require live verification.
+
 **What is an MCP server?** A program exposes agent tools/resources through Model Context Protocol; this server uses stdio.
 
 **How do I connect Claude Code?** Save keys with auth set and use project install or the printed user command.
@@ -130,7 +150,20 @@ Lifecycle, ACL, bucket tagging and retention may be cloud features, but this bin
 **Which features are available?** Read capabilities and [compat](docs/compat.md). Registration follows the profile; this version does not configure lifecycle, ACL, bucket tagging or retention.
 
 
-Family: Selectel, Yandex Cloud, VK Cloud, Cloud.ru, Timeweb Cloud, MWS and Beget share the same [kit](https://github.com/stufently/s3-mcp-ai-cli-kit).
+## Related S3 MCP servers
+
+[Browse the full provider directory](https://stufently.github.io/s3-mcp-ai-cli-kit/en/).
+
+| Provider | Repository | Use case |
+|---|---|---|
+| Selectel | [selectel-s3-mcp-ai-cli](https://github.com/stufently/selectel-s3-mcp-ai-cli) | Pool selection and backup recovery |
+| Yandex Cloud | [yandex-s3-mcp-ai-cli](https://github.com/stufently/yandex-s3-mcp-ai-cli) | Object inventory and backup version inspection |
+| VK Cloud | [vkcloud-s3-mcp-ai-cli](https://github.com/stufently/vkcloud-s3-mcp-ai-cli) | Hotbox/Icebox inspection and regional access |
+| Cloud.ru | [cloudru-s3-mcp-ai-cli](https://github.com/stufently/cloudru-s3-mcp-ai-cli) | Evolution Object Storage access diagnostics |
+| Timeweb Cloud | [timeweb-s3-mcp-ai-cli](https://github.com/stufently/timeweb-s3-mcp-ai-cli) | Archive recovery and bounded prefix usage |
+| MWS | [mws-s3-mcp-ai-cli](https://github.com/stufently/mws-s3-mcp-ai-cli) | HMAC access checks and short-lived archive URLs |
+| Beget | [beget-s3-mcp-ai-cli](https://github.com/stufently/beget-s3-mcp-ai-cli) | Browse and restore files from an existing bucket |
+| Shared Go kit | [s3-mcp-ai-cli-kit](https://github.com/stufently/s3-mcp-ai-cli-kit) | Shared MCP, CLI, safety and CI |
 
 ## License
 

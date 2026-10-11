@@ -1,12 +1,14 @@
 # MWS S3 MCP Server & AI CLI
 
-![Version](https://img.shields.io/badge/version-0.1.0-blue) ![License](https://img.shields.io/badge/license-MIT-green)
+![Status](https://img.shields.io/badge/status-development-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
-MWS S3 Object Storage через MCP и CLI: Claude Code, Cursor и Codex помогают выполнять бэкап и работать с файлами, а AI-агент получает ограниченный доступ и подтверждение опасных действий.
+MCP-сервер и CLI для S3 MWS Cloud Platform: подключение объектного хранилища к Claude Code, Cursor и Codex через HMAC-ключ сервисного аккаунта. Бинарь `mws-s3` помогает проверять доступ, находить бэкапы и создавать временные ссылки.
+
+[English guide](README.en.md) · [Каталог S3 MCP-серверов](https://stufently.github.io/s3-mcp-ai-cli-kit/)
 
 ## English
 
-A single Go binary for MWS Object Storage: a stdio MCP server, streaming CLI and installable agent skill. Read-only MCP access is the default; independent write/delete/admin levels, bucket/prefix scope, human approval and confined local file access protect data. Large files travel directly through presigned URLs or multipart uploads. See the [full English guide](README.en.md).
+A Go MCP server, CLI and agent skill for MWS S3 Object Storage. Connect Claude Code, Cursor and Codex to scoped object storage for inspection and backup recovery. Cloud Platform, storage.mwsapis.ru; ACL is disabled. See the [full English guide](README.en.md).
 
 ## Быстрый старт
 
@@ -69,6 +71,18 @@ Codex: ~/.codex/config.toml. Существующая таблица требу�
 
 Аналитика сканирует максимум max_scan (по умолчанию 10000); partial/token отмечают неполный результат. Prefix usage выдаёт страницы агрегатов через next_result_offset. Это не биллинг.
 
+## Сценарий: Проверка HMAC-доступа и короткие ссылки на архивы
+
+После сохранения HMAC-ключа проверьте доступ сервисного аккаунта и выдайте короткую ссылку на существующий архив MWS Cloud Platform. Пример использует срок 60 секунд, соответствующий нижней границе в ресерче:
+
+```bash
+mws-s3 auth status
+mws-s3 doctor --json
+mws-s3 presign backups/daily/archive.tar --expires 60
+```
+
+Примеры используют существующий бакет `backups` и объект `daily/archive.tar`; замените их своими значениями. Профиль и API облака ещё требуют [живой проверки](TASKS.md).
+
 ## CLI
 
 ```bash
@@ -129,6 +143,12 @@ Lifecycle, ACL, bucket tagging и object retention могут поддержив
 
 ## FAQ
 
+**Какой продукт MWS поддерживает этот MCP-сервер?** Профиль предназначен для **MWS Cloud Platform**, endpoint `storage.mwsapis.ru`, регион подписи `ru-central1`. Для другого продукта с похожим названием нужен отдельный профиль.
+
+**Какие ключи нужны для MWS S3?** Access key/Secret key HMAC-ключа сервисного аккаунта; введите их через `mws-s3 auth set`. Источник и порядок создания описаны в [ресерче MWS](docs/research/mws-s3.md). Не передавайте ключи в аргументах команд.
+
+**Почему короткая MWS presigned-ссылка использует 60 секунд?** Ресерч ссылается на документированный диапазон 60–604800 секунд. Используйте не меньше 60; фактическое поведение и верхний предел ещё требуют живой проверки.
+
 **Что такое MCP-сервер?** Программа предоставляет агентам инструменты и ресурсы через Model Context Protocol; здесь stdio.
 
 **Как подключить MCP-сервер к Claude Code?** Сохрани ключи auth set, затем используй project install либо напечатанную user-команду.
@@ -142,7 +162,18 @@ Lifecycle, ACL, bucket tagging и object retention могут поддержив
 
 ## Другие провайдеры
 
-Семейство: Selectel, Yandex Cloud, VK Cloud, Cloud.ru, Timeweb Cloud, MWS, Beget. Все используют [общий kit](https://github.com/stufently/s3-mcp-ai-cli-kit).
+[Общий каталог: MCP-серверы и CLI для российских S3](https://stufently.github.io/s3-mcp-ai-cli-kit/).
+
+| Провайдер | Репозиторий | Сценарий |
+|---|---|---|
+| Selectel | [selectel-s3-mcp-ai-cli](https://github.com/stufently/selectel-s3-mcp-ai-cli) | Выбор пула и восстановление резервных копий |
+| Yandex Cloud | [yandex-s3-mcp-ai-cli](https://github.com/stufently/yandex-s3-mcp-ai-cli) | Инвентаризация объектов и проверка версий бэкапов |
+| VK Cloud | [vkcloud-s3-mcp-ai-cli](https://github.com/stufently/vkcloud-s3-mcp-ai-cli) | Проверка Hotbox/Icebox и доступ к нужному региону |
+| Cloud.ru | [cloudru-s3-mcp-ai-cli](https://github.com/stufently/cloudru-s3-mcp-ai-cli) | Диагностика доступа к Evolution Object Storage |
+| Timeweb Cloud | [timeweb-s3-mcp-ai-cli](https://github.com/stufently/timeweb-s3-mcp-ai-cli) | Восстановление архивов и учёт объёма префикса |
+| MWS | [mws-s3-mcp-ai-cli](https://github.com/stufently/mws-s3-mcp-ai-cli) | Проверка HMAC-доступа и короткие ссылки на архивы |
+| Beget | [beget-s3-mcp-ai-cli](https://github.com/stufently/beget-s3-mcp-ai-cli) | Просмотр и восстановление файлов из готового бакета |
+| Shared Go kit | [s3-mcp-ai-cli-kit](https://github.com/stufently/s3-mcp-ai-cli-kit) | Общие MCP, CLI, защиты и CI |
 
 ## Лицензия
 

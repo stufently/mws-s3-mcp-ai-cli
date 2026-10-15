@@ -14,7 +14,7 @@ A Go MCP server, CLI and agent skill for MWS S3 Object Storage. Connect Claude C
 
 Профиль предназначен для **MWS Cloud Platform** (`storage.mwsapis.ru`, `ru-central1`). Владелец создаёт HMAC-ключ сервисного аккаунта; его Access key/Secret key вводятся через `auth set`. Для presign используйте срок от 60 до 604800 секунд.
 
-Возьми бинарь своей платформы из Releases, когда версия будет опубликована, либо собери с Go 1.27.2:
+Возьми бинарь своей платформы из [Releases](https://github.com/stufently/mws-s3-mcp-ai-cli/releases/latest) (v0.1.0 опубликован; есть в MCP Registry и Smithery) либо собери с Go 1.27.2:
 
 ```bash
 bash scripts/go.sh go build -o mws-s3 ./cmd/mws-s3
@@ -28,7 +28,7 @@ auth set спрашивает key ID и secret без эха; без TTY чит�
 
 Приоритет: флаги > env > файл. Переменные: MWS_S3_ACCESS_KEY_ID, MWS_S3_SECRET_ACCESS_KEY, MWS_S3_POOL (ru-central1), MWS_S3_ENDPOINT. HTTP требует MWS_S3_ALLOW_INSECURE=1.
 
-После публикации образ: ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.0; локальная сборка: docker build -t mws-s3 . Образ запускает MCP от uid 65532, содержит CA-сертификаты. Передай креды через приватное окружение/файл.
+Образ: ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.0; локальная сборка: docker build -t mws-s3 . Образ запускает MCP от uid 65532, содержит CA-сертификаты. Передай креды через приватное окружение/файл.
 
 ## Возможности
 

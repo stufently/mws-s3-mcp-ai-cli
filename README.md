@@ -38,6 +38,37 @@ auth set спрашивает key ID и secret без эха; без TTY чит�
 
 ## Подключение к Claude Code, Cursor, Codex
 
+[![Add mws-s3 MCP server to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=mws-s3&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCItZSIsIk1XU19TM19BQ0NFU1NfS0VZX0lEIiwiLWUiLCJNV1NfUzNfU0VDUkVUX0FDQ0VTU19LRVkiLCItZSIsIk1XU19TM19QT09MIiwiZ2hjci5pby9zdHVmZW50bHkvbXdzLXMzLW1jcC1haS1jbGk6MC4xLjAiXSwiZW52Ijp7Ik1XU19TM19BQ0NFU1NfS0VZX0lEIjoiJHtlbnY6TVdTX1MzX0FDQ0VTU19LRVlfSUR9IiwiTVdTX1MzX1NFQ1JFVF9BQ0NFU1NfS0VZIjoiJHtlbnY6TVdTX1MzX1NFQ1JFVF9BQ0NFU1NfS0VZfSIsIk1XU19TM19QT09MIjoiJHtlbnY6TVdTX1MzX1BPT0x9In19)
+
+Кнопка ставит MCP из Docker-образа `ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.0` в режиме только чтения. Ключи в конфиг не пишутся: Cursor подставляет `${env:…}` из окружения, поэтому задай `MWS_S3_ACCESS_KEY_ID` и `MWS_S3_SECRET_ACCESS_KEY` там, откуда запускается Cursor; `MWS_S3_POOL` — если бакет не в пуле по умолчанию (пустое значение = пул по умолчанию). Тот же блок — для Windsurf (`mcp_config.json`) и вручную для `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "mws-s3": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "MWS_S3_ACCESS_KEY_ID",
+        "-e",
+        "MWS_S3_SECRET_ACCESS_KEY",
+        "-e",
+        "MWS_S3_POOL",
+        "ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.0"
+      ],
+      "env": {
+        "MWS_S3_ACCESS_KEY_ID": "${env:MWS_S3_ACCESS_KEY_ID}",
+        "MWS_S3_SECRET_ACCESS_KEY": "${env:MWS_S3_SECRET_ACCESS_KEY}",
+        "MWS_S3_POOL": "${env:MWS_S3_POOL}"
+      }
+    }
+  }
+}
+```
+
 ```bash
 mws-s3 mcp install --client cursor --dry-run
 mws-s3 mcp install --client cursor

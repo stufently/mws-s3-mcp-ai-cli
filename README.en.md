@@ -12,7 +12,7 @@ Streaming object CRUD, copy, multipart and presigned URLs follow the profile. Ve
 
 This profile targets **MWS Cloud Platform** (`storage.mwsapis.ru`, `ru-central1`). Use a service account HMAC access key/secret through `auth set`. Request presigned URLs for 60–604800 seconds.
 
-Use a platform binary from [Releases](https://github.com/stufently/mws-s3-mcp-ai-cli/releases/latest) (v0.1.1 is out; also listed in the MCP Registry and Smithery), or build with Go 1.27.2:
+Use a platform binary from [Releases](https://github.com/stufently/mws-s3-mcp-ai-cli/releases/latest) (v0.1.0 is out; also listed in the MCP Registry and Smithery), or build with Go 1.27.2:
 
 ```bash
 bash scripts/go.sh go build -o mws-s3 ./cmd/mws-s3
@@ -26,13 +26,13 @@ auth set reads the key ID and secret without terminal echo; non-TTY input suppli
 
 Resolution: flags > env > file. Variables: MWS_S3_ACCESS_KEY_ID, MWS_S3_SECRET_ACCESS_KEY, MWS_S3_POOL (ru-central1), MWS_S3_ENDPOINT. HTTP requires MWS_S3_ALLOW_INSECURE=1.
 
-Image: ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.1. Build locally with docker build -t mws-s3 .; the scratch image runs MCP as uid 65532 with CA certificates. Supply a private credentials environment/file setup.
+Image: ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.0. Build locally with docker build -t mws-s3 .; the scratch image runs MCP as uid 65532 with CA certificates. Supply a private credentials environment/file setup.
 
 ## Connect to Claude Code, Cursor, Codex
 
 [![Add mws-s3 MCP server to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=mws-s3&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCItZSIsIk1XU19TM19BQ0NFU1NfS0VZX0lEIiwiLWUiLCJNV1NfUzNfU0VDUkVUX0FDQ0VTU19LRVkiLCItZSIsIk1XU19TM19QT09MIiwiZ2hjci5pby9zdHVmZW50bHkvbXdzLXMzLW1jcC1haS1jbGk6MC4xLjAiXSwiZW52Ijp7Ik1XU19TM19BQ0NFU1NfS0VZX0lEIjoiJHtlbnY6TVdTX1MzX0FDQ0VTU19LRVlfSUR9IiwiTVdTX1MzX1NFQ1JFVF9BQ0NFU1NfS0VZIjoiJHtlbnY6TVdTX1MzX1NFQ1JFVF9BQ0NFU1NfS0VZfSIsIk1XU19TM19QT09MIjoiJHtlbnY6TVdTX1MzX1BPT0x9In19)
 
-The button installs the MCP server from the Docker image `ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.1`, read-only. Keys stay out of the config: Cursor fills `${env:…}` from the environment, so set `MWS_S3_ACCESS_KEY_ID` and `MWS_S3_SECRET_ACCESS_KEY` where Cursor starts, and `MWS_S3_POOL` when the bucket is not in the default pool (empty means the default). The same block works for Windsurf (`mcp_config.json`) and by hand in `~/.cursor/mcp.json`:
+The button installs the MCP server from the Docker image `ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.0`, read-only. Keys stay out of the config: Cursor fills `${env:…}` from the environment, so set `MWS_S3_ACCESS_KEY_ID` and `MWS_S3_SECRET_ACCESS_KEY` where Cursor starts, and `MWS_S3_POOL` when the bucket is not in the default pool (empty means the default). The same block works for Windsurf (`mcp_config.json`) and by hand in `~/.cursor/mcp.json`:
 
 ```json
 {
@@ -49,7 +49,7 @@ The button installs the MCP server from the Docker image `ghcr.io/stufently/mws-
         "MWS_S3_SECRET_ACCESS_KEY",
         "-e",
         "MWS_S3_POOL",
-        "ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.1"
+        "ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.0"
       ],
       "env": {
         "MWS_S3_ACCESS_KEY_ID": "${env:MWS_S3_ACCESS_KEY_ID}",

@@ -14,7 +14,7 @@ A Go MCP server, CLI and agent skill for MWS S3 Object Storage. Connect Claude C
 
 Профиль предназначен для **MWS Cloud Platform** (`storage.mwsapis.ru`, `ru-central1`). Владелец создаёт HMAC-ключ сервисного аккаунта; его Access key/Secret key вводятся через `auth set`. Для presign используйте срок от 60 до 604800 секунд.
 
-Возьми бинарь своей платформы из [Releases](https://github.com/stufently/mws-s3-mcp-ai-cli/releases/latest) (v0.1.0 опубликован; есть в MCP Registry и Smithery) либо собери с Go 1.27.2:
+Возьми бинарь своей платформы из [Releases](https://github.com/stufently/mws-s3-mcp-ai-cli/releases/latest) (v0.1.1 опубликован; есть в MCP Registry и Smithery) либо собери с Go 1.27.2:
 
 ```bash
 bash scripts/go.sh go build -o mws-s3 ./cmd/mws-s3
@@ -28,7 +28,7 @@ auth set спрашивает key ID и secret без эха; без TTY чит�
 
 Приоритет: флаги > env > файл. Переменные: MWS_S3_ACCESS_KEY_ID, MWS_S3_SECRET_ACCESS_KEY, MWS_S3_POOL (ru-central1), MWS_S3_ENDPOINT. HTTP требует MWS_S3_ALLOW_INSECURE=1.
 
-Образ: ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.0; локальная сборка: docker build -t mws-s3 . Образ запускает MCP от uid 65532, содержит CA-сертификаты. Передай креды через приватное окружение/файл.
+Образ: ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.1; локальная сборка: docker build -t mws-s3 . Образ запускает MCP от uid 65532, содержит CA-сертификаты. Передай креды через приватное окружение/файл.
 
 ## Возможности
 
@@ -38,9 +38,9 @@ auth set спрашивает key ID и secret без эха; без TTY чит�
 
 ## Подключение к Claude Code, Cursor, Codex
 
-[![Add mws-s3 MCP server to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=mws-s3&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCItZSIsIk1XU19TM19BQ0NFU1NfS0VZX0lEIiwiLWUiLCJNV1NfUzNfU0VDUkVUX0FDQ0VTU19LRVkiLCItZSIsIk1XU19TM19QT09MIiwiZ2hjci5pby9zdHVmZW50bHkvbXdzLXMzLW1jcC1haS1jbGk6MC4xLjAiXSwiZW52Ijp7Ik1XU19TM19BQ0NFU1NfS0VZX0lEIjoiJHtlbnY6TVdTX1MzX0FDQ0VTU19LRVlfSUR9IiwiTVdTX1MzX1NFQ1JFVF9BQ0NFU1NfS0VZIjoiJHtlbnY6TVdTX1MzX1NFQ1JFVF9BQ0NFU1NfS0VZfSIsIk1XU19TM19QT09MIjoiJHtlbnY6TVdTX1MzX1BPT0x9In19)
+[![Add mws-s3 MCP server to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=mws-s3&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCItZSIsIk1XU19TM19BQ0NFU1NfS0VZX0lEIiwiLWUiLCJNV1NfUzNfU0VDUkVUX0FDQ0VTU19LRVkiLCItZSIsIk1XU19TM19QT09MIiwiZ2hjci5pby9zdHVmZW50bHkvbXdzLXMzLW1jcC1haS1jbGk6MC4xLjEiXSwiZW52Ijp7Ik1XU19TM19BQ0NFU1NfS0VZX0lEIjoiJHtlbnY6TVdTX1MzX0FDQ0VTU19LRVlfSUR9IiwiTVdTX1MzX1NFQ1JFVF9BQ0NFU1NfS0VZIjoiJHtlbnY6TVdTX1MzX1NFQ1JFVF9BQ0NFU1NfS0VZfSIsIk1XU19TM19QT09MIjoiJHtlbnY6TVdTX1MzX1BPT0x9In19)
 
-Кнопка ставит MCP из Docker-образа `ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.0` в режиме только чтения. Ключи в конфиг не пишутся: Cursor подставляет `${env:…}` из окружения, поэтому задай `MWS_S3_ACCESS_KEY_ID` и `MWS_S3_SECRET_ACCESS_KEY` там, откуда запускается Cursor; `MWS_S3_POOL` — если бакет не в пуле по умолчанию (пустое значение = пул по умолчанию). Тот же блок — для Windsurf (`mcp_config.json`) и вручную для `~/.cursor/mcp.json`:
+Кнопка ставит MCP из Docker-образа `ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.1` в режиме только чтения. Ключи в конфиг не пишутся: Cursor подставляет `${env:…}` из окружения, поэтому задай `MWS_S3_ACCESS_KEY_ID` и `MWS_S3_SECRET_ACCESS_KEY` там, откуда запускается Cursor; `MWS_S3_POOL` — если бакет не в пуле по умолчанию (пустое значение = пул по умолчанию). Тот же блок — для Windsurf (`mcp_config.json`) и вручную для `~/.cursor/mcp.json`:
 
 ```json
 {
@@ -57,7 +57,7 @@ auth set спрашивает key ID и secret без эха; без TTY чит�
         "MWS_S3_SECRET_ACCESS_KEY",
         "-e",
         "MWS_S3_POOL",
-        "ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.0"
+        "ghcr.io/stufently/mws-s3-mcp-ai-cli:0.1.1"
       ],
       "env": {
         "MWS_S3_ACCESS_KEY_ID": "${env:MWS_S3_ACCESS_KEY_ID}",
